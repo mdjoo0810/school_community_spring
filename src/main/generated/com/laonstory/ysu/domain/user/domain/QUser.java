@@ -32,7 +32,11 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath email = createString("email");
 
+    public final StringPath fcmToken = createString("fcmToken");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final DateTimePath<java.time.LocalDateTime> lastLoginDate = createDateTime("lastLoginDate", java.time.LocalDateTime.class);
 
     public final com.laonstory.ysu.domain.major.domain.QMajor major;
 
@@ -44,6 +48,8 @@ public class QUser extends EntityPathBase<User> {
     public final StringPath nickname = createString("nickname");
 
     public final StringPath password = createString("password");
+
+    public final NumberPath<Long> point = createNumber("point", Long.class);
 
     public final StringPath profile = createString("profile");
 

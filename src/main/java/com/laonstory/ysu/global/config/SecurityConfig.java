@@ -56,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new AccessDeniedHandler() {
             @Override
             public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
-                httpServletResponse.setStatus(401);
+                httpServletResponse.setStatus(403);
                 accessDeniedException(httpServletRequest, httpServletResponse);
             }
         };
@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             @Override
             public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
                 httpServletResponse.setStatus(401);
-                accessDeniedException(httpServletRequest, httpServletResponse);
+                invalidTokenException(httpServletRequest, httpServletResponse);
             }
         };
     }
@@ -78,6 +78,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpServletRequest.setCharacterEncoding("UTF-8");
 
         final ErrorResponse exception = ErrorResponse.of(ErrorCode.HANDLE_ACCESS_DENIED);
+
+        out.print(new Gson().toJson(exception));
+        out.flush();
+    }
+
+    private void invalidTokenException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
+        PrintWriter out = httpServletResponse.getWriter();
+        httpServletResponse.setContentType("application/json");
+        httpServletRequest.setCharacterEncoding("UTF-8");
+
+        final ErrorResponse exception = ErrorResponse.of(ErrorCode.HANDLE_INVALID_TOKEN);
 
         out.print(new Gson().toJson(exception));
         out.flush();

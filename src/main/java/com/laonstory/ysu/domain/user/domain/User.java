@@ -8,11 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -48,6 +50,8 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     private String profile;
 
+    private String fcmToken;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "major_id")
     private Major major;
@@ -55,6 +59,11 @@ public class User extends BaseTimeEntity implements UserDetails {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sub_major_id")
     private Major subMajor;
+
+    @ColumnDefault("0")
+    private Long point;
+
+    private LocalDateTime lastLoginDate;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
@@ -100,7 +109,7 @@ public class User extends BaseTimeEntity implements UserDetails {
         return true;
     }
 
-
+    // 유저 생성
     public static User create(RegisterRequest dto, String encodedPassword, Major major, Major subMajor) {
         return User.builder()
                 .username(dto.getStudentId())
@@ -109,12 +118,24 @@ public class User extends BaseTimeEntity implements UserDetails {
                 .nickname(createRandomNickname(dto.getStudentId()))
                 .studentID(dto.getStudentId())
                 .email(dto.getEmail())
+                .point(0L)
                 .major(major)
                 .subMajor(subMajor)
-                .roles(Collections.singletonList("USER"))
+                .roles(Collections.singletonList("ROLE_USER"))
                 .build();
     }
 
+    // 로그인 처리
+    public void login() {
+        this.lastLoginDate = LocalDateTime.now();
+    }
+
+    // FCM Token 업데이트
+    public void updateFcmToken (String fcmToken) {
+        this.fcmToken = fcmToken;
+    }
+
+    // 랜덤 닉네임 생성
     private static String createRandomNickname(String studentId) {
         Random rnd = new Random();
 

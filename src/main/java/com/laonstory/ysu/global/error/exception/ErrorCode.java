@@ -12,12 +12,14 @@ public enum ErrorCode {
     INTERNAL_SERVER_ERROR(500, "C004", "알 수 업는 에러 (서버 에러)"),
     INVALID_TYPE_VALUE(400, "C005", "타입이 올바르지 않습니다."),
     HANDLE_ACCESS_DENIED(403, "C006", "권한이 없습니다."),
+    HANDLE_INVALID_TOKEN(401, "C007", "토큰이 없거나 올바르지 않습니다."),
 
 
     // Member
     EMAIL_DUPLICATION(400, "M001", "중복된 이메일 입니다."),
     STUDENT_ID_DUPLICATION(400, "M002", "중복된 학번 입니다."),
-    LOGIN_INPUT_INVALID(400, "M003", "아이디 또는 비밀번호를 획인해주세요."),
+    STUDENT_ID_INPUT_INVALID(400, "M003", "학번을 획인해주세요."),
+    PASSWORD_INPUT_INVALID(400, "M004", "비밀번호를 획인해주세요."),
 
     ;
 

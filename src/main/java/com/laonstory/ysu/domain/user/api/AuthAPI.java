@@ -1,7 +1,9 @@
 package com.laonstory.ysu.domain.user.api;
 
+import com.laonstory.ysu.domain.user.application.LoginService;
 import com.laonstory.ysu.domain.user.application.RegisterService;
 import com.laonstory.ysu.domain.user.dto.ExistStudentIdRequest;
+import com.laonstory.ysu.domain.user.dto.LoginRequest;
 import com.laonstory.ysu.domain.user.dto.RegisterRequest;
 import com.laonstory.ysu.domain.user.dto.TokenResponse;
 import com.laonstory.ysu.global.common.response.ApiResponse;
@@ -21,18 +23,17 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class AuthAPI {
 
-    // TODO: 로그인
-    // TODO: 회원가입
     // TODO: 학번 인증
     // TODO: 계정 찾기
     // TODO: 인증 번호 요청
     // TODO: 비밀번호 변경
 
     private final RegisterService registerService;
+    private final LoginService loginService;
 
     @PostMapping("/login")
-    public ApiResponse<String> login() {
-        return new ApiResponse<>(HttpStatus.OK, "success");
+    public ApiResponse<TokenResponse> login(@Valid @RequestBody LoginRequest dto) {
+        return new ApiResponse<>(HttpStatus.OK, loginService.login(dto));
     }
 
     /**

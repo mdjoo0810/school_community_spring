@@ -23,6 +23,7 @@ public class UserResponse {
     private String studentId;
     private String email;
     private String profile;
+    private Long point;
     private MajorResponse major;
     private MajorResponse subMajor;
     private List<String> role;
@@ -34,6 +35,7 @@ public class UserResponse {
         this.studentId = user.getStudentID();
         this.email = user.getEmail();
         this.profile = user.getProfile();
+        this.point = user.getPoint();
         this.major = new MajorResponse(user.getMajor());
         this.subMajor = user.getSubMajor() != null ? new MajorResponse(user.getSubMajor()) : null;
         this.role = user.getRoles();
