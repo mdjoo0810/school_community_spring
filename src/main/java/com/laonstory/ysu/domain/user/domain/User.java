@@ -150,9 +150,30 @@ public class User extends BaseTimeEntity implements UserDetails {
         this.point = result > 0 ? result : 0;
     }
 
+    // 학적 정보 변경
+    public void changeMajor(Major major, Major subMajor) {
+        this.major = major;
+        this.subMajor = subMajor;
+    }
+
+    // 프로필 등록
+    public void changeProfile(String location) {
+        this.profile = location;
+    }
+
+    // 프로필 삭제
+    public void deleteProfile() {
+        this.profile = null;
+    }
+
     // 비밀번호 변경
     public void changePassword(String encodedPassword) {
         this.password = encodedPassword;
+    }
+
+    // 회원 탈퇴
+    public void withdraw() {
+        this.setDeletedDate();
     }
 
     // 랜덤 닉네임 생성

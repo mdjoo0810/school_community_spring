@@ -3,9 +3,7 @@ package com.laonstory.ysu.domain.user.application;
 import com.laonstory.ysu.domain.user.domain.User;
 import com.laonstory.ysu.domain.user.dto.LoginRequest;
 import com.laonstory.ysu.domain.user.dto.TokenResponse;
-import com.laonstory.ysu.domain.user.exception.PasswordNotMatchedException;
-import com.laonstory.ysu.domain.user.exception.StudentIdNotMatchedException;
-import com.laonstory.ysu.domain.user.exception.UserNotFoundException;
+import com.laonstory.ysu.domain.user.exception.*;
 import com.laonstory.ysu.domain.user.persistance.UserRepositorySupport;
 import com.laonstory.ysu.global.component.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +29,9 @@ public class LoginService {
      * @return TokenResponse
      */
     public TokenResponse login (LoginRequest dto) {
+        // 탈퇴 확인
+        isWithdrawUser(dto.getStudentId());
+
         // 유저 있는지 확인
         User user = userRepositorySupport.findByStudentId(dto.getStudentId());
 
@@ -55,4 +56,12 @@ public class LoginService {
         if (!passwordEncoder.matches(password, encodedPassword)) throw new PasswordNotMatchedException(password);
     }
 
+    /**
+     * 탈퇴된 회원인지 확인
+     * @param studentId : 학번
+     */
+    private void isWithdrawUser(String studentId) {
+        Boolean withdraw = userRepositorySupport.isWithdrawUser(studentId);
+        if (withdraw) throw new AlreadyWithdrawUserException(studentId);
+    }
 }

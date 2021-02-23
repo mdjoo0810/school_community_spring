@@ -11,9 +11,7 @@ import com.laonstory.ysu.domain.user.domain.User;
 import com.laonstory.ysu.domain.user.dto.RegisterRequest;
 import com.laonstory.ysu.domain.user.dto.TokenResponse;
 import com.laonstory.ysu.domain.user.dto.UserResponse;
-import com.laonstory.ysu.domain.user.exception.EmailDuplicateException;
-import com.laonstory.ysu.domain.user.exception.PhoneDuplicateException;
-import com.laonstory.ysu.domain.user.exception.StudentIdDuplicatedException;
+import com.laonstory.ysu.domain.user.exception.*;
 import com.laonstory.ysu.domain.user.persistance.UserJpaRepository;
 import com.laonstory.ysu.domain.user.persistance.UserRepositorySupport;
 import com.laonstory.ysu.global.component.JwtTokenProvider;
@@ -45,6 +43,8 @@ public class RegisterService {
      * @return TokenResponse
      */
     public TokenResponse register(RegisterRequest dto) {
+        // 탈퇴 확인
+        isWithdrawUser(dto.getStudentId());
 
         // 중복 확인
         duplicateStudentId(dto.getStudentId());
@@ -71,6 +71,15 @@ public class RegisterService {
         String token = jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles());
 
         return new TokenResponse(token, user);
+    }
+
+    /**
+     * 탈퇴된 회원인지 확인
+     * @param studentId : 학번
+     */
+    private void isWithdrawUser(String studentId) {
+        Boolean withdraw = userRepositorySupport.isWithdrawUser(studentId);
+        if (withdraw) throw new AlreadyWithdrawUserException(studentId);
     }
 
     /**

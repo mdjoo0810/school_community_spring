@@ -62,6 +62,16 @@ public class UserRepositorySupport extends QuerydslRepositorySupport {
         return result;
     }
 
+    public Boolean isWithdrawUser(String studentId) {
+        Integer fetchOne = queryFactory
+                .selectOne()
+                .from(user)
+                .where(user.studentID.eq(studentId), user.deletedDate.isNotNull())
+                .fetchFirst();
+
+        return fetchOne != null;
+    }
+
     public Boolean existByStudentId(String studentId) {
         Integer fetchOne = queryFactory
                 .selectOne()
