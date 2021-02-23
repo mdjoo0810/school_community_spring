@@ -4,6 +4,9 @@ import com.laonstory.ysu.domain.major.domain.Major;
 import com.laonstory.ysu.domain.major.exception.MajorNotFoundException;
 import com.laonstory.ysu.domain.major.persistance.MajorJpaRepository;
 import com.laonstory.ysu.domain.major.persistance.MajorRepositorySupport;
+import com.laonstory.ysu.domain.point.domain.PointHistory;
+import com.laonstory.ysu.domain.point.dto.PointHistoryRequest;
+import com.laonstory.ysu.domain.point.persistance.PointHistoryJpaRepository;
 import com.laonstory.ysu.domain.user.domain.User;
 import com.laonstory.ysu.domain.user.dto.RegisterRequest;
 import com.laonstory.ysu.domain.user.dto.TokenResponse;
@@ -33,6 +36,8 @@ public class RegisterService {
 
     private final MajorRepositorySupport majorRepositorySupport;
 
+    private final PointHistoryJpaRepository pointHistoryJpaRepository;
+
     /**
      * 회원가입 메서드
      * @param dto : 회원가입 정보
@@ -53,6 +58,12 @@ public class RegisterService {
 
         // 유저 저장
         userJpaRepository.save(user);
+
+        // 회원가입 포인트 추가
+        user.addPoint(1000L);
+
+        PointHistory history = PointHistory.create(new PointHistoryRequest(1000L, "회원가입 축하 포인트"), user);
+        pointHistoryJpaRepository.save(history);
 
         // 토큰 발행
         String token = jwtTokenProvider.createToken(String.valueOf(user.getId()), user.getRoles());

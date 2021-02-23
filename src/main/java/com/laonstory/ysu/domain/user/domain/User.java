@@ -135,6 +135,17 @@ public class User extends BaseTimeEntity implements UserDetails {
         this.fcmToken = fcmToken;
     }
 
+    // 포인트 증가
+    public void addPoint(Long point) {
+        this.point += point;
+    }
+
+    // 포인트 감소
+    public void minusPoint(Long point) {
+        Long result = this.point -= point;
+        this.point = result > 0 ? result : 0;
+    }
+
     // 랜덤 닉네임 생성
     private static String createRandomNickname(String studentId) {
         Random rnd = new Random();
