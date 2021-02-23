@@ -8,6 +8,7 @@ import com.laonstory.ysu.domain.user.domain.User;
 import com.laonstory.ysu.domain.user.dto.*;
 import com.laonstory.ysu.domain.user.exception.PasswordNotMatchedException;
 import com.laonstory.ysu.domain.user.exception.SMSNotFoundException;
+import com.laonstory.ysu.domain.user.exception.UserHasAdminException;
 import com.laonstory.ysu.domain.user.exception.UserNotFoundException;
 import com.laonstory.ysu.domain.user.persistance.SMSJpaRepository;
 import com.laonstory.ysu.domain.user.persistance.UserJpaRepository;
@@ -178,8 +179,15 @@ public class UserInfoService {
 
     }
 
+    /**
+     * 회원탈퇴 메서드
+     * @param user : token 으로 가져온 유저
+     * @return Boolean
+     */
     @Transactional
     public Boolean withdraw(User user) {
+        if (user.getRoles().contains("ADMIN")) throw new UserHasAdminException(user.getName());
+
         user.withdraw();
         userJpaRepository.save(user);
         return true;
