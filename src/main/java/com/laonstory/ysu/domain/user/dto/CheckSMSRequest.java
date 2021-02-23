@@ -10,16 +10,15 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class LoginRequest {
+public class CheckSMSRequest {
 
     @NotNull
     @NotBlank
-    @Length(min = 10, max = 10)
-    private String studentId;
+    private String phone;
 
     @NotNull
     @NotBlank
-    @Length(min = 8, max = 20)
-    private String password;
+    @Length(min = 6, max = 6)
+    private String code;
 
 }

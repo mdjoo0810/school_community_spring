@@ -1,7 +1,10 @@
 package com.laonstory.ysu.domain.user.persistance;
 
 import com.laonstory.ysu.domain.user.domain.User;
+import com.laonstory.ysu.domain.user.dto.CheckUserRequest;
+import com.laonstory.ysu.domain.user.exception.CheckUserNotFoundException;
 import com.laonstory.ysu.domain.user.exception.StudentIdNotMatchedException;
+import com.laonstory.ysu.domain.user.exception.UserNotFoundException;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
@@ -37,6 +40,28 @@ public class UserRepositorySupport extends QuerydslRepositorySupport {
         return result;
     }
 
+    public User findByPhone(String phone) {
+        User result = queryFactory
+                .selectFrom(user)
+                .where(user.phone.eq(phone))
+                .fetchOne();
+
+        if (result == null) throw new CheckUserNotFoundException(phone);
+
+        return result;
+    }
+
+    public User findByStudentIdAndPhone(CheckUserRequest dto) {
+        User result = queryFactory
+                .selectFrom(user)
+                .where(user.studentID.eq(dto.getStudentId()), user.phone.eq(dto.getPhone()))
+                .fetchOne();
+
+        if (result == null) throw new CheckUserNotFoundException(dto.getPhone());
+
+        return result;
+    }
+
     public Boolean existByStudentId(String studentId) {
         Integer fetchOne = queryFactory
                 .selectOne()
@@ -52,6 +77,16 @@ public class UserRepositorySupport extends QuerydslRepositorySupport {
                 .selectOne()
                 .from(user)
                 .where(user.email.eq(email))
+                .fetchFirst();
+
+        return fetchOne != null;
+    }
+
+    public Boolean existByPhone(String phone) {
+        Integer fetchOne = queryFactory
+                .selectOne()
+                .from(user)
+                .where(user.phone.eq(phone))
                 .fetchFirst();
 
         return fetchOne != null;

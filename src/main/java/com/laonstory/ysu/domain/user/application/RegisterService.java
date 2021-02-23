@@ -12,6 +12,7 @@ import com.laonstory.ysu.domain.user.dto.RegisterRequest;
 import com.laonstory.ysu.domain.user.dto.TokenResponse;
 import com.laonstory.ysu.domain.user.dto.UserResponse;
 import com.laonstory.ysu.domain.user.exception.EmailDuplicateException;
+import com.laonstory.ysu.domain.user.exception.PhoneDuplicateException;
 import com.laonstory.ysu.domain.user.exception.StudentIdDuplicatedException;
 import com.laonstory.ysu.domain.user.persistance.UserJpaRepository;
 import com.laonstory.ysu.domain.user.persistance.UserRepositorySupport;
@@ -48,6 +49,7 @@ public class RegisterService {
         // 중복 확인
         duplicateStudentId(dto.getStudentId());
         duplicateEmail(dto.getEmail());
+        duplicatePhone(dto.getPhone());
 
         // 유저 생성
         User user = User.create(
@@ -87,6 +89,15 @@ public class RegisterService {
     private void duplicateEmail(String email) {
         Boolean exist = userRepositorySupport.existByEmail(email);
         if (exist) throw new EmailDuplicateException(email);
+    }
+
+    /**
+     * 전화번호 중복 확인
+     * @param phone : 전화번호
+     */
+    private void duplicatePhone(String phone) {
+        Boolean exist = userRepositorySupport.existByPhone(phone);
+        if (exist) throw new PhoneDuplicateException(phone);
     }
 
     /**

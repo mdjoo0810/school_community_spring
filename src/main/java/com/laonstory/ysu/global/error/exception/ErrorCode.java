@@ -14,13 +14,19 @@ public enum ErrorCode {
     HANDLE_ACCESS_DENIED(403, "C006", "권한이 없습니다."),
     HANDLE_INVALID_TOKEN(401, "C007", "토큰이 없거나 올바르지 않습니다."),
 
+    // AUTH
+    SMS_NOT_FOUND(400, "A001", "인증번호 발송 후 진행해주세요."),
+    SMS_CODE_NOT_MATCHED(400, "A002", "인증번호가 올바르지 않습니다."),
+    EXPIRED_CODE(400, "A003", "인증번호가 만료되었습니다.\n 문자인증을 다시 진행해주세요."),
+    ALREADY_USED_CODE(400, "A003", "이미 사용된 인증번호입니다.\n 문자인증을 다시 진행해주세요."),
 
     // Member
     EMAIL_DUPLICATION(400, "M001", "중복된 이메일 입니다."),
     STUDENT_ID_DUPLICATION(400, "M002", "중복된 학번 입니다."),
     STUDENT_ID_INPUT_INVALID(400, "M003", "학번을 획인해주세요."),
     PASSWORD_INPUT_INVALID(400, "M004", "비밀번호를 획인해주세요."),
-
+    CHECK_USER_INVALID(400, "M005", "해당 정보에 맞는 유저가 없습니다."),
+    PHONE_DUPLICATION(400, "M006", "중복된 전화번호 입니다."),
     ;
 
     private int status;

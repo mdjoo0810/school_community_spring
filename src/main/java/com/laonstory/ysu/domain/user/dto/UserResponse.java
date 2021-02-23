@@ -22,6 +22,7 @@ public class UserResponse {
     private String nickname;
     private String studentId;
     private String email;
+    private String phone;
     private String profile;
     private Long point;
     private MajorResponse major;
@@ -34,6 +35,7 @@ public class UserResponse {
         this.nickname = user.getNickname();
         this.studentId = user.getStudentID();
         this.email = user.getEmail();
+        this.phone = user.getPhone();
         this.profile = user.getProfile();
         this.point = user.getPoint();
         this.major = new MajorResponse(user.getMajor());

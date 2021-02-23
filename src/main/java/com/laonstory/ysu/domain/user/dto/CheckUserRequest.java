@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class LoginRequest {
+public class CheckUserRequest {
 
     @NotNull
     @NotBlank
@@ -19,7 +19,6 @@ public class LoginRequest {
 
     @NotNull
     @NotBlank
-    @Length(min = 8, max = 20)
-    private String password;
+    private String phone;
 
 }

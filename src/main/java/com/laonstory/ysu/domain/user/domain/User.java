@@ -33,6 +33,9 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Column(nullable = false , unique = true)
     private String username;
 
+    @Column(nullable = false, unique = true)
+    private String phone;
+
     @Column(nullable = false)
     private String name;
 
@@ -114,6 +117,7 @@ public class User extends BaseTimeEntity implements UserDetails {
         return User.builder()
                 .username(dto.getStudentId())
                 .name(dto.getName())
+                .phone(dto.getPhone())
                 .password(encodedPassword)
                 .nickname(createRandomNickname(dto.getStudentId()))
                 .studentID(dto.getStudentId())
@@ -144,6 +148,11 @@ public class User extends BaseTimeEntity implements UserDetails {
     public void minusPoint(Long point) {
         Long result = this.point -= point;
         this.point = result > 0 ? result : 0;
+    }
+
+    // 비밀번호 변경
+    public void changePassword(String encodedPassword) {
+        this.password = encodedPassword;
     }
 
     // 랜덤 닉네임 생성

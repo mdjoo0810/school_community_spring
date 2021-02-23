@@ -10,12 +10,11 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class LoginRequest {
+public class ChangePasswordRequest {
 
     @NotNull
     @NotBlank
-    @Length(min = 10, max = 10)
-    private String studentId;
+    private String phone;
 
     @NotNull
     @NotBlank
