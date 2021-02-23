@@ -18,6 +18,8 @@ public class QUser extends EntityPathBase<User> {
 
     private static final long serialVersionUID = 1629860111L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QUser user = new QUser("user");
 
     public final com.laonstory.ysu.domain.common.QBaseTimeEntity _super = new com.laonstory.ysu.domain.common.QBaseTimeEntity(this);
@@ -31,6 +33,8 @@ public class QUser extends EntityPathBase<User> {
     public final StringPath email = createString("email");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final com.laonstory.ysu.domain.major.domain.QMajor major;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
@@ -47,18 +51,30 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath studentID = createString("studentID");
 
+    public final com.laonstory.ysu.domain.major.domain.QMajor subMajor;
+
     public final StringPath username = createString("username");
 
     public QUser(String variable) {
-        super(User.class, forVariable(variable));
+        this(User.class, forVariable(variable), INITS);
     }
 
     public QUser(Path<? extends User> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QUser(PathMetadata metadata) {
-        super(User.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QUser(PathMetadata metadata, PathInits inits) {
+        this(User.class, metadata, inits);
+    }
+
+    public QUser(Class<? extends User> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.major = inits.isInitialized("major") ? new com.laonstory.ysu.domain.major.domain.QMajor(forProperty("major"), inits.get("major")) : null;
+        this.subMajor = inits.isInitialized("subMajor") ? new com.laonstory.ysu.domain.major.domain.QMajor(forProperty("subMajor"), inits.get("subMajor")) : null;
     }
 
 }

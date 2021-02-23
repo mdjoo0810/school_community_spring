@@ -2,6 +2,7 @@ package com.laonstory.ysu.domain.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.laonstory.ysu.domain.common.BaseTimeEntity;
+import com.laonstory.ysu.domain.major.domain.Major;
 import com.laonstory.ysu.domain.user.dto.RegisterRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,10 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -49,6 +47,14 @@ public class User extends BaseTimeEntity implements UserDetails {
     private String email;
 
     private String profile;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "major_id")
+    private Major major;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sub_major_id")
+    private Major subMajor;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
@@ -95,19 +101,26 @@ public class User extends BaseTimeEntity implements UserDetails {
     }
 
 
-    public static User create(RegisterRequest dto, String encodedPassword) {
+    public static User create(RegisterRequest dto, String encodedPassword, Major major, Major subMajor) {
         return User.builder()
                 .username(dto.getStudentId())
                 .name(dto.getName())
                 .password(encodedPassword)
-                .nickname(createRandomNickname())
+                .nickname(createRandomNickname(dto.getStudentId()))
                 .studentID(dto.getStudentId())
                 .email(dto.getEmail())
+                .major(major)
+                .subMajor(subMajor)
                 .roles(Collections.singletonList("USER"))
                 .build();
     }
 
-    private static String createRandomNickname() {
-        return "";
+    private static String createRandomNickname(String studentId) {
+        Random rnd = new Random();
+
+        String firstRandomStr = String.valueOf((char) ((int) (rnd.nextInt(26)) + 65));
+        String SecondRandomStr = String.valueOf((char) ((int) (rnd.nextInt(26)) + 65));
+
+        return studentId.substring(2,4) + firstRandomStr + studentId.substring(4,7) + SecondRandomStr + studentId.substring(7,10);
     }
 }

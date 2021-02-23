@@ -19,6 +19,13 @@ public class MajorRepositorySupport extends QuerydslRepositorySupport {
         this.queryFactory = queryFactory;
     }
 
+    public Major findById(Long majorId) {
+        return queryFactory
+                .selectFrom(major)
+                .where(major.id.eq(majorId))
+                .fetchOne();
+    }
+
     public List<Major> findAllByCollegeId(Long collegeId) {
         return queryFactory
                 .selectFrom(major)

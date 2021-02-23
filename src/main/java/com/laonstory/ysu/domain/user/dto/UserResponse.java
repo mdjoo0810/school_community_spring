@@ -1,5 +1,7 @@
 package com.laonstory.ysu.domain.user.dto;
 
+import com.laonstory.ysu.domain.major.domain.Major;
+import com.laonstory.ysu.domain.major.dto.MajorResponse;
 import com.laonstory.ysu.domain.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,6 +23,8 @@ public class UserResponse {
     private String studentId;
     private String email;
     private String profile;
+    private MajorResponse major;
+    private MajorResponse subMajor;
     private List<String> role;
 
     public UserResponse (final User user) {
@@ -30,6 +34,8 @@ public class UserResponse {
         this.studentId = user.getStudentID();
         this.email = user.getEmail();
         this.profile = user.getProfile();
+        this.major = new MajorResponse(user.getMajor());
+        this.subMajor = user.getSubMajor() != null ? new MajorResponse(user.getSubMajor()) : null;
         this.role = user.getRoles();
     }
 

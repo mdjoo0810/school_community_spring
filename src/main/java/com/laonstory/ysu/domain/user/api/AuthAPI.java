@@ -35,12 +35,21 @@ public class AuthAPI {
         return new ApiResponse<>(HttpStatus.OK, "success");
     }
 
+    /**
+     * 회원가입 API
+     * @param dto : 회원가입에 필요한 정보
+     * @return TokenResponse
+     */
     @PostMapping("/register")
     public ApiResponse<TokenResponse> register(@Valid @RequestBody RegisterRequest dto) {
         return new ApiResponse<>(HttpStatus.CREATED, registerService.register(dto));
     }
 
-
+    /**
+     * 학번 인증 API
+     * @param dto : 학번 인증에 필요한 정보
+     * @return Boolean
+     */
     @PostMapping("/student/id/exist")
     public ApiResponse<Boolean> existStudentId(@Valid @RequestBody ExistStudentIdRequest dto) {
 
