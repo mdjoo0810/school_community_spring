@@ -1,9 +1,7 @@
 package com.laonstory.ysu.global.application;
 
 import com.laonstory.ysu.domain.user.domain.User;
-import com.laonstory.ysu.domain.user.exception.UserNotFoundException;
-import com.laonstory.ysu.domain.user.persistance.UserJpaRepository;
-import com.laonstory.ysu.domain.user.persistance.UserRepositorySupport;
+import com.laonstory.ysu.domain.user.persistence.UserJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

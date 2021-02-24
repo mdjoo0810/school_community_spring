@@ -1,10 +1,10 @@
 package com.laonstory.ysu.domain.major.application;
 
 import com.laonstory.ysu.domain.college.exception.CollegeNotFoundException;
-import com.laonstory.ysu.domain.college.persistance.CollegeRepositorySupport;
+import com.laonstory.ysu.domain.college.persistence.CollegeRepositorySupport;
 import com.laonstory.ysu.domain.major.domain.Major;
 import com.laonstory.ysu.domain.major.dto.MajorResponse;
-import com.laonstory.ysu.domain.major.persistance.MajorRepositorySupport;
+import com.laonstory.ysu.domain.major.persistence.MajorRepositorySupport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

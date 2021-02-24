@@ -2,7 +2,7 @@ package com.laonstory.ysu.domain.faq.application;
 
 import com.laonstory.ysu.domain.faq.domain.FaqCategory;
 import com.laonstory.ysu.domain.faq.dto.FaqCategoryResponse;
-import com.laonstory.ysu.domain.faq.persistance.FaqCategoryJpaRepository;
+import com.laonstory.ysu.domain.faq.persistence.FaqCategoryJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

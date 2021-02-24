@@ -2,15 +2,12 @@ package com.laonstory.ysu.domain.notice.application;
 
 import com.laonstory.ysu.domain.notice.domain.Notice;
 import com.laonstory.ysu.domain.notice.domain.NoticeBuilder;
-import com.laonstory.ysu.domain.notice.persistance.NoticeJpaRepository;
-import com.laonstory.ysu.domain.notice.persistance.NoticeRepositorySupport;
+import com.laonstory.ysu.domain.notice.persistence.NoticeRepositorySupport;
 import com.laonstory.ysu.test.MockTest;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -18,8 +15,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class NoticeSearchServiceTest extends MockTest {
 

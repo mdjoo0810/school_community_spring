@@ -4,7 +4,7 @@ import com.laonstory.ysu.domain.user.domain.User;
 import com.laonstory.ysu.domain.user.dto.LoginRequest;
 import com.laonstory.ysu.domain.user.dto.TokenResponse;
 import com.laonstory.ysu.domain.user.exception.*;
-import com.laonstory.ysu.domain.user.persistance.UserRepositorySupport;
+import com.laonstory.ysu.domain.user.persistence.UserRepositorySupport;
 import com.laonstory.ysu.global.component.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,11 +1,9 @@
 package com.laonstory.ysu.domain.point.api;
 
-import com.laonstory.ysu.domain.point.aplication.PointSearchService;
+import com.laonstory.ysu.domain.point.application.PointSearchService;
 import com.laonstory.ysu.domain.point.dto.PointHistoryResponse;
 import com.laonstory.ysu.domain.user.domain.User;
 import com.laonstory.ysu.global.common.response.ApiPagingResponse;
-import com.laonstory.ysu.global.common.response.ApiResponse;
-import com.laonstory.ysu.global.common.response.PagingResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

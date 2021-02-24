@@ -22,18 +22,21 @@ public class QMajor extends EntityPathBase<Major> {
 
     public static final QMajor major = new QMajor("major");
 
-    public final com.laonstory.ysu.domain.common.QSNS _super = new com.laonstory.ysu.domain.common.QSNS(this);
+    public final com.laonstory.ysu.domain.organization.domain.QOrganization _super = new com.laonstory.ysu.domain.organization.domain.QOrganization(this);
 
-    public final StringPath bgImage = createString("bgImage");
+    //inherited
+    public final StringPath bgImage = _super.bgImage;
 
     public final com.laonstory.ysu.domain.college.domain.QCollege college;
 
-    public final StringPath description = createString("description");
+    //inherited
+    public final StringPath description = _super.description;
 
     //inherited
     public final StringPath facebook = _super.facebook;
 
-    public final NumberPath<Long> id = createNumber("id", Long.class);
+    //inherited
+    public final NumberPath<Long> id = _super.id;
 
     //inherited
     public final StringPath instagram = _super.instagram;
@@ -41,9 +44,11 @@ public class QMajor extends EntityPathBase<Major> {
     //inherited
     public final StringPath naver = _super.naver;
 
-    public final StringPath profile = createString("profile");
+    //inherited
+    public final StringPath profile = _super.profile;
 
-    public final StringPath title = createString("title");
+    //inherited
+    public final StringPath title = _super.title;
 
     public QMajor(String variable) {
         this(Major.class, forVariable(variable), INITS);

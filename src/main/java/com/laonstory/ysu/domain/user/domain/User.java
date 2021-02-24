@@ -69,6 +69,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     private LocalDateTime lastLoginDate;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @JoinTable(name = "T_USER_ROLES")
     @Builder.Default
     private final List<String> roles = new ArrayList<>();
 

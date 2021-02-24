@@ -2,9 +2,8 @@ package com.laonstory.ysu.test.setup;
 
 import com.laonstory.ysu.domain.notice.domain.Notice;
 import com.laonstory.ysu.domain.notice.domain.NoticeBuilder;
-import com.laonstory.ysu.domain.notice.persistance.NoticeJpaRepository;
+import com.laonstory.ysu.domain.notice.persistence.NoticeJpaRepository;
 import com.laonstory.ysu.test.config.TestProfile;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;

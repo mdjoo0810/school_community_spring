@@ -3,11 +3,10 @@ package com.laonstory.ysu.domain.user.application;
 import com.laonstory.ysu.domain.user.domain.SMSAuth;
 import com.laonstory.ysu.domain.user.dto.CheckSMSRequest;
 import com.laonstory.ysu.domain.user.dto.SendSMSRequest;
-import com.laonstory.ysu.domain.user.exception.AlreadyUsedCodeException;
 import com.laonstory.ysu.domain.user.exception.ExpiredSMSAuthException;
 import com.laonstory.ysu.domain.user.exception.SMSCodeNotMatchedException;
 import com.laonstory.ysu.domain.user.exception.SMSNotFoundException;
-import com.laonstory.ysu.domain.user.persistance.SMSJpaRepository;
+import com.laonstory.ysu.domain.user.persistence.SMSJpaRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Slf4j
