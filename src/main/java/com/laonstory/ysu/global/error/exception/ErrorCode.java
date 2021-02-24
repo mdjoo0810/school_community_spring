@@ -35,7 +35,10 @@ public enum ErrorCode {
     USER_HAS_ADMIN_ROLE(400, "M008", "회원 탈퇴가 불가능합니다.\n매니저 계정 삭제 후, 다시 시도해 주세요."),
 
     // Notice
-    NOTICE_NOT_FOUND(400, "N001", "해당 공지사항을 찾을 수가 없습니다.")
+    NOTICE_NOT_FOUND(400, "N001", "해당 공지사항을 찾을 수가 없습니다."),
+
+    // Faq
+    FAQ_NOT_FOUND(400, "F001", "해당 문의사항을 찾을 수가 없습니다."),
     ;
 
     private int status;

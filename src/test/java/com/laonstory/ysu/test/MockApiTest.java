@@ -6,6 +6,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.ByteSource;
 import com.laonstory.ysu.YsuApplication;
 import com.laonstory.ysu.test.config.TestProfile;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
@@ -40,6 +41,15 @@ public class MockApiTest {
 
     @Rule
     public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation();
+
+
+    protected String token;
+
+    @Before
+    public void setUp() {
+        token = "12";
+    }
+
 
     protected RestDocumentationResultHandler document = buildDocument();
     protected MockMvc mvc;

@@ -16,6 +16,9 @@ spring:
     password:
     driver-class-name: org.h2.Driver
 
+app:
+  filePath: /Users/stanjoo/Documents/laonstory/ysu/upload
+
 logging:
   level:
     root: info
