@@ -33,6 +33,9 @@ public enum ErrorCode {
     PHONE_DUPLICATION(400, "M006", "중복된 전화번호 입니다."),
     ALREADY_WITHDRAW_USER(400, "M007", "탈퇴된 회원입니다.\n 탈퇴일 기준으로 7일 뒤 부터 가입할 수 있습니다."),
     USER_HAS_ADMIN_ROLE(400, "M008", "회원 탈퇴가 불가능합니다.\n매니저 계정 삭제 후, 다시 시도해 주세요."),
+
+    // Notice
+    NOTICE_NOT_FOUND(400, "N001", "해당 공지사항을 찾을 수가 없습니다.")
     ;
 
     private int status;
