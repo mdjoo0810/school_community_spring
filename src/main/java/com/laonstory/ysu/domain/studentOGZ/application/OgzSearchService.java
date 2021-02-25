@@ -26,6 +26,10 @@ public class OgzSearchService {
 
     private final OgzNoticeRepositorySupport ogzNoticeRepositorySupport;
 
+    public StudentOgz findOgz (StudentOgz.OgzType type) {
+        return studentOgzRepositorySupport.findByType(type);
+    }
+
     public OrganizationWithNoticeResponse findByOgzNoticeSearchModel_ONR(OgzNoticeSearchModel model) {
         StudentOgz ogz = studentOgzRepositorySupport.findByType(model.getOgzType());
 

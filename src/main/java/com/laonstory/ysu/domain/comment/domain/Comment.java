@@ -6,6 +6,8 @@ import com.laonstory.ysu.domain.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,19 +22,22 @@ public class Comment extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long parent;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Comment parent;
 
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    public static Comment create(CommentRequest dto, User user) {
-        return Comment.builder()
-                .parent(dto.getParent() != null ? dto.getParent() : null)
-                .content(dto.getContent())
-                .user(user)
-                .build();
-    }
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<Comment> children = new ArrayList<>();
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<CommentLike> likes = new ArrayList<>();
+
+//    public static Comment create(CommentRequest dto, User user) {
+//
+//    }
 
 }

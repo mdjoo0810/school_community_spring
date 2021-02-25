@@ -53,4 +53,8 @@ public class OgzNotice extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "notice", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OgzNoticeLike> likes = new ArrayList<>();
+
+    public void read() {
+        ++this.views;
+    }
 }

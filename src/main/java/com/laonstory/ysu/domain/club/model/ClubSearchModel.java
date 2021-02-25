@@ -14,4 +14,8 @@ public class ClubSearchModel {
     private Long categoryId;
     private String query;
 
+    public ClubSearchModel (String query) {
+        this.query = query;
+    }
+
 }

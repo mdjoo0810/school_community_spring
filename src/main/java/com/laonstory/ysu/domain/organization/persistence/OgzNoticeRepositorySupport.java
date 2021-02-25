@@ -1,6 +1,7 @@
 package com.laonstory.ysu.domain.organization.persistence;
 
 import com.laonstory.ysu.domain.organization.domain.OgzNotice;
+import com.laonstory.ysu.domain.organization.exception.OgzNoticeNotFoundException;
 import com.laonstory.ysu.domain.organization.model.OgzNoticeMenu;
 import com.laonstory.ysu.domain.organization.model.OgzNoticeSearchModel;
 import com.laonstory.ysu.domain.organization.model.OgzTabType;
@@ -14,6 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Year;
 import java.util.List;
 
 import static com.laonstory.ysu.domain.organization.domain.QOgzNotice.ogzNotice;
@@ -28,6 +32,17 @@ public class OgzNoticeRepositorySupport extends QuerydslRepositorySupport {
         this.queryFactory = queryFactory;
     }
 
+    public OgzNotice findById(Long noticeId){
+        OgzNotice notice = queryFactory
+                .selectFrom(ogzNotice)
+                .where(ogzNotice.id.eq(noticeId))
+                .fetchOne();
+
+        if (notice == null) throw new OgzNoticeNotFoundException(noticeId);
+
+        return notice;
+    }
+
     // 총학생회, 단과대, 학부학과, 학생단체 관련
     public List<OgzNotice> findLimit_3ByOgzNoticeSearchModel(OgzNoticeSearchModel model) {
         return queryFactory
@@ -35,6 +50,7 @@ public class OgzNoticeRepositorySupport extends QuerydslRepositorySupport {
                 .where(eqTabType(model.getTabType()),
                         eqMenu(model.getMenus()),
                         eqOgzId(model.getOgzId()))
+                .leftJoin(ogzNotice.organization)
                 .limit(3)
                 .orderBy(ogzNotice.isFix.asc(), ogzNotice.createdDate.desc())
                 .fetch();
@@ -48,18 +64,23 @@ public class OgzNoticeRepositorySupport extends QuerydslRepositorySupport {
                         eqMenu(model.getMenus()),
                         eqOgzId(model.getOgzId()),
                         ogzNotice.isWhole.isTrue())
+                .leftJoin(ogzNotice.organization)
                 .limit(3)
                 .orderBy(ogzNotice.isFix.asc(), ogzNotice.createdDate.desc())
                 .fetch();
     }
 
     // 전체 리스트 불러오기 (페이징)
-    public Page<OgzNotice> findAllNoticeByTabType(OgzTabType type, Pageable pageable) {
+    public Page<OgzNotice> search(OgzNoticeSearchModel model, Pageable pageable) {
         QueryResults<OgzNotice> results = queryFactory
                 .selectFrom(ogzNotice)
-                .where(ogzNotice.tabType.eq(type),
-                        ogzNotice.isWhole.isTrue(),
-                        ogzNotice.menu.eq(OgzNoticeMenu.NOTICE))
+                .where(eqTabType(model.getTabType()),
+                        eqMenu(model.getMenus()),
+                        isWhole(model.getIsWhole()),
+                        eqOgzId(model.getOgzId()),
+                        eqYear(model.getYear()),
+                        containsQuery(model.getQuery()))
+                .leftJoin(ogzNotice.organization)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(ogzNotice.isFix.asc(), ogzNotice.createdDate.desc())
@@ -93,5 +114,42 @@ public class OgzNoticeRepositorySupport extends QuerydslRepositorySupport {
         }
 
         return ogzNotice.organization.id.eq(ogzId);
+    }
+
+    private BooleanExpression isWhole(Boolean isWhole) {
+        if (isWhole == null || !isWhole) {
+            return ogzNotice.isWhole.isFalse();
+        }
+
+        return ogzNotice.isWhole.isTrue();
+    }
+
+    private BooleanExpression containsQuery(String query) {
+        if (query == null) {
+            return null;
+        }
+
+        if (query.isBlank()) {
+            return null;
+        }
+
+        return ogzNotice.title.contains(query)
+                .or(ogzNotice.content.contains(query))
+                .or(ogzNotice.tags.any().name.contains(query));
+    }
+
+    private BooleanExpression eqYear(String year) {
+        if (year == null) {
+            return null;
+        }
+
+        if (year.isBlank()) {
+            return null;
+        }
+
+        LocalDateTime startDate = Year.parse(year).atMonth(1).atDay(1).atStartOfDay();
+        LocalDateTime endDate = Year.parse(Integer.toString((Integer.parseInt(year) + 1))).atMonth(1).atDay(31).atStartOfDay();
+
+        return ogzNotice.createdDate.between(startDate, endDate);
     }
 }

@@ -53,7 +53,7 @@ public class AssociationRepositorySupport extends QuerydslRepositorySupport {
                 .selectFrom(association)
                 .where(eqCollege(model.getCollegeId()),
                         eqMajor(model.getMajorId()),
-                        eqQuery(model.getQuery()))
+                        containsQuery(model.getQuery()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(association.id.desc())
@@ -65,14 +65,18 @@ public class AssociationRepositorySupport extends QuerydslRepositorySupport {
     // ========================================
     // 조건
     // ========================================
-    private BooleanExpression eqQuery(String query) {
-        if (query.isEmpty() || query.isBlank()) {
+    private BooleanExpression containsQuery(String query) {
+        if (query == null) {
+            return null;
+        }
+
+        if (query.isBlank()) {
             return null;
         }
 
         return association.title.contains(query)
                 .or(association.description.contains(query))
-                .or(associationTag.name.contains(query));
+                .or(association.tags.any().name.contains(query));
     }
 
     private BooleanExpression eqCollege(Long collegeId) {

@@ -24,9 +24,9 @@ public class OgzNoticeComment extends Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     private OgzNotice notice;
 
-    public static OgzNoticeComment create(CommentRequest dto, User user, OgzNotice notice) {
-        OgzNoticeComment comment = (OgzNoticeComment) OgzNoticeComment.create(dto,user);
-        comment.notice = notice;
-        return comment;
-    }
+//    public static OgzNoticeComment create(CommentRequest dto, User user, OgzNotice notice) {
+//        OgzNoticeComment comment = (OgzNoticeComment) OgzNoticeComment.create(dto,user);
+//        comment.notice = notice;
+//        return comment;
+//    }
 }

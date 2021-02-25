@@ -15,10 +15,12 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class AssociationWithTagsResponse extends OrganizationResponse {
 
+    private Boolean isHold;
     private List<HashTagResponse> tags;
 
     public AssociationWithTagsResponse(Association association) {
         super(association);
+        this.isHold = association.getIsHold();
         this.tags = association.getTags().stream().map(HashTagResponse::new).collect(Collectors.toList());
     }
 }

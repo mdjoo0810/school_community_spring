@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class OgzNoticeResponse {
 
     private Long id;
+    private String writer;
     private OgzTabType tabType;
     private OgzNoticeMenu menu;
 
@@ -34,6 +35,7 @@ public class OgzNoticeResponse {
 
     public OgzNoticeResponse(OgzNotice notice) {
         this.id = notice.getId();
+        this.writer = notice.getOrganization() != null ? notice.getOrganization().getTitle() : null;
         this.tabType = notice.getTabType();
         this.menu = notice.getMenu();
         this.title = notice.getTitle();

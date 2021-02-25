@@ -1,20 +1,20 @@
 package com.laonstory.ysu.domain.studentOGZ.api;
 
-import com.laonstory.ysu.domain.organization.dto.OrganizationResponse;
-import com.laonstory.ysu.domain.organization.dto.OrganizationWithNoticeAndActivityAndAuditResponse;
-import com.laonstory.ysu.domain.organization.dto.OrganizationWithNoticeAndNewsResponse;
-import com.laonstory.ysu.domain.organization.dto.OrganizationWithNoticeResponse;
+import com.laonstory.ysu.domain.organization.application.OrganizationSearchService;
+import com.laonstory.ysu.domain.organization.dto.*;
+import com.laonstory.ysu.domain.organization.model.OgzNoticeMenu;
 import com.laonstory.ysu.domain.organization.model.OgzNoticeSearchModel;
 import com.laonstory.ysu.domain.organization.model.OgzTabType;
 import com.laonstory.ysu.domain.studentOGZ.application.OgzSearchService;
 import com.laonstory.ysu.domain.studentOGZ.domain.StudentOgz;
+import com.laonstory.ysu.global.common.response.ApiPagingResponse;
 import com.laonstory.ysu.global.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 
 @Slf4j
 @RestController
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OgzAPI {
 
     private final OgzSearchService ogzSearchService;
-
+    private final OrganizationSearchService organizationSearchService;
     @GetMapping("/council")
     public ApiResponse<OrganizationWithNoticeAndActivityAndAuditResponse> findCouncil() {
         return new ApiResponse<>(HttpStatus.OK,
@@ -47,6 +47,90 @@ public class OgzAPI {
     public ApiResponse<OrganizationWithNoticeResponse> findYMBS() {
         return new ApiResponse<>(HttpStatus.OK,
                 ogzSearchService.findByOgzNoticeSearchModel_ONR(new OgzNoticeSearchModel(StudentOgz.OgzType.YMBS, OgzTabType.ORGANIZATION)));
+    }
+
+    @GetMapping("/council/notices/search")
+    public ApiPagingResponse<OgzNoticeResponse> searchCouncilNotice(
+            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String year,
+            @RequestParam String menu
+    ) {
+        StudentOgz ogz = ogzSearchService.findOgz(StudentOgz.OgzType.COUNCIL);
+
+        OgzNoticeSearchModel model = OgzNoticeSearchModel.builder()
+                .isWhole(false)
+                .tabType(OgzTabType.COUNCIL)
+                .ogzId(ogz.getId())
+                .year(year)
+                .menus(Collections.singletonList(OgzNoticeMenu.valueOf(menu)))
+                .query(query)
+                .build();
+
+        return new ApiPagingResponse<>(HttpStatus.OK, organizationSearchService.searchNotice(model, page));
+    }
+
+    @GetMapping("/sasaeng/notices/search")
+    public ApiPagingResponse<OgzNoticeResponse> searchSasaengNotice(
+            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String year,
+            @RequestParam String menu
+    ) {
+        StudentOgz ogz = ogzSearchService.findOgz(StudentOgz.OgzType.SASAENG);
+
+        OgzNoticeSearchModel model = OgzNoticeSearchModel.builder()
+                .isWhole(false)
+                .tabType(OgzTabType.ORGANIZATION)
+                .ogzId(ogz.getId())
+                .year(year)
+                .menus(Collections.singletonList(OgzNoticeMenu.valueOf(menu)))
+                .query(query)
+                .build();
+
+        return new ApiPagingResponse<>(HttpStatus.OK, organizationSearchService.searchNotice(model, page));
+    }
+
+    @GetMapping("/chunchu/notices/search")
+    public ApiPagingResponse<OgzNoticeResponse> searchChunchuNotice(
+            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String year,
+            @RequestParam String menu
+    ) {
+        StudentOgz ogz = ogzSearchService.findOgz(StudentOgz.OgzType.CHUNCHU);
+
+        OgzNoticeSearchModel model = OgzNoticeSearchModel.builder()
+                .isWhole(false)
+                .tabType(OgzTabType.ORGANIZATION)
+                .ogzId(ogz.getId())
+                .year(year)
+                .menus(Collections.singletonList(OgzNoticeMenu.valueOf(menu)))
+                .query(query)
+                .build();
+
+        return new ApiPagingResponse<>(HttpStatus.OK, organizationSearchService.searchNotice(model, page));
+    }
+
+    @GetMapping("/ymbs/notices/search")
+    public ApiPagingResponse<OgzNoticeResponse> searchYMBSNotice(
+            @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String year,
+            @RequestParam String menu
+    ) {
+        StudentOgz ogz = ogzSearchService.findOgz(StudentOgz.OgzType.YMBS);
+
+        OgzNoticeSearchModel model = OgzNoticeSearchModel.builder()
+                .isWhole(false)
+                .tabType(OgzTabType.ORGANIZATION)
+                .ogzId(ogz.getId())
+                .year(year)
+                .menus(Collections.singletonList(OgzNoticeMenu.valueOf(menu)))
+                .query(query)
+                .build();
+
+        return new ApiPagingResponse<>(HttpStatus.OK, organizationSearchService.searchNotice(model, page));
     }
 
 }

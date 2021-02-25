@@ -1,21 +1,24 @@
 package com.laonstory.ysu.domain.organization.model;
 
 import com.laonstory.ysu.domain.studentOGZ.domain.StudentOgz;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class OgzNoticeSearchModel {
 
     private StudentOgz.OgzType ogzType;
     private OgzTabType tabType;
     private List<OgzNoticeMenu> menus;
     private Long ogzId;
+    private Boolean isWhole;
+    private String query;
+    private String year;
 
 
     public OgzNoticeSearchModel (OgzTabType tabType, List<OgzNoticeMenu> menus) {
@@ -29,6 +32,21 @@ public class OgzNoticeSearchModel {
         this.ogzId = ogzId;
     }
 
+    public OgzNoticeSearchModel (OgzTabType tabType, List<OgzNoticeMenu> menus, Boolean isWhole, String query) {
+        this.tabType = tabType;
+        this.menus = menus;
+        this.isWhole = isWhole != null ? isWhole : false;
+        this.query = query;
+    }
+
+    public OgzNoticeSearchModel (OgzTabType tabType, List<OgzNoticeMenu> menus, Long ogzId, Boolean isWhole, String query) {
+        this.tabType = tabType;
+        this.menus = menus;
+        this.ogzId = ogzId;
+        this.isWhole = isWhole != null ? isWhole : false;
+        this.query = query;
+    }
+
     public OgzNoticeSearchModel (OgzTabType tabType, Long ogzId) {
         this.tabType = tabType;
         this.ogzId = ogzId;
@@ -39,6 +57,7 @@ public class OgzNoticeSearchModel {
         this.tabType = tabType;
     }
 
+    //
     public OgzNoticeSearchModel (OgzNoticeSearchModel model, List<OgzNoticeMenu> menus) {
         this.ogzType = model.getOgzType();
         this.tabType = model.getTabType();

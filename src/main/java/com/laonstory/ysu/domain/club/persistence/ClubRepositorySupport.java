@@ -3,8 +3,12 @@ package com.laonstory.ysu.domain.club.persistence;
 import com.laonstory.ysu.domain.club.domain.Club;
 import com.laonstory.ysu.domain.club.exception.ClubNotFoundException;
 import com.laonstory.ysu.domain.club.model.ClubSearchModel;
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -49,11 +53,23 @@ public class ClubRepositorySupport extends QuerydslRepositorySupport {
         return queryFactory
                 .selectFrom(club)
                 .where(eqCategory(model.getCategoryId()),
-                        eqQuery(model.getQuery()),
+                        containsQuery(model.getQuery()),
                         club.category.isAssociation.isFalse())
                 .limit(3)
                 .orderBy(club.id.desc())
                 .fetch();
+    }
+
+    public Page<Club> search(ClubSearchModel model, Pageable pageable) {
+        QueryResults<Club> results = queryFactory
+                .selectFrom(club)
+                .where(containsQuery(model.getQuery()), club.category.isAssociation.isFalse())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(club.id.desc())
+                .fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
     // ========================================
@@ -67,12 +83,16 @@ public class ClubRepositorySupport extends QuerydslRepositorySupport {
         return club.category.id.eq(categoryId);
     }
 
-    private BooleanExpression eqQuery(String query) {
+    private BooleanExpression containsQuery(String query) {
         if (query == null) {
             return null;
         }
 
-        return club.title.contains(query).or(club.description.contains(query));
+        if (query.isBlank()) {
+            return null;
+        }
+
+        return club.title.contains(query).or(club.description.contains(query)).or(club.tags.any().name.contains(query));
     }
 
 }

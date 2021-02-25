@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,6 +19,9 @@ import java.util.List;
 @Builder
 @Table(name = "T_ASSOCIATION")
 public class Association extends Organization {
+
+    @ColumnDefault("0")
+    private Boolean isHold;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Major major;
