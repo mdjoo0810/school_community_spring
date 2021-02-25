@@ -13,6 +13,7 @@ public enum ErrorCode {
     INVALID_TYPE_VALUE(400, "C005", "타입이 올바르지 않습니다."),
     HANDLE_ACCESS_DENIED(403, "C006", "권한이 없습니다."),
     HANDLE_INVALID_TOKEN(401, "C007", "토큰이 없거나 올바르지 않습니다."),
+    NOT_MY_ENTITY(400, "C008", "내 작성물이 아닙니다."),
 
     // AUTH
     SMS_NOT_FOUND(400, "A001", "인증번호 발송 후 진행해주세요."),

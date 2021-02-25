@@ -1,6 +1,7 @@
 package com.laonstory.ysu.domain.organization.persistence;
 
 import com.laonstory.ysu.domain.organization.domain.OgzNoticeComment;
+import com.laonstory.ysu.domain.organization.exception.OgzNoticeCommentNotFoundException;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,17 @@ public class OgzNoticeCommentRepositorySupport extends QuerydslRepositorySupport
     public OgzNoticeCommentRepositorySupport(JPAQueryFactory queryFactory) {
         super(OgzNoticeComment.class);
         this.queryFactory = queryFactory;
+    }
+
+    public OgzNoticeComment findById(Long id) {
+        OgzNoticeComment result = queryFactory
+                .selectFrom(ogzNoticeComment)
+                .where(ogzNoticeComment.id.eq(id))
+                .fetchOne();
+
+        if (result == null) throw new OgzNoticeCommentNotFoundException(id);
+
+        return result;
     }
 
     public Page<OgzNoticeComment> findAllByNoticeId(Long noticeId, Pageable pageable) {

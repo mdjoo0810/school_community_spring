@@ -1,6 +1,7 @@
 package com.laonstory.ysu.domain.comment.dto;
 
 import com.laonstory.ysu.domain.comment.domain.Comment;
+import com.laonstory.ysu.domain.organization.domain.OgzNoticeComment;
 import com.laonstory.ysu.domain.user.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,5 +30,4 @@ public class CommentResponse {
         this.createdDate = comment.getCreatedDate();
         this.modifiedDate = comment.getModifiedDate();
     }
-
 }

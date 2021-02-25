@@ -25,4 +25,15 @@ public class OgzNoticeLike {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    public static OgzNoticeLike create(OgzNotice notice, User user) {
+        return OgzNoticeLike.builder()
+                .notice(notice)
+                .user(user)
+                .build();
+    }
+
+    public void matchUser(User user) {
+        this.user = user;
+    }
+
 }

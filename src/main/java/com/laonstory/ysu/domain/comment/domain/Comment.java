@@ -1,7 +1,9 @@
 package com.laonstory.ysu.domain.comment.domain;
 
 import com.laonstory.ysu.domain.comment.dto.CommentRequest;
+import com.laonstory.ysu.domain.comment.dto.CommentResponse;
 import com.laonstory.ysu.domain.common.BaseTimeEntity;
+import com.laonstory.ysu.domain.organization.domain.OgzNotice;
 import com.laonstory.ysu.domain.user.domain.User;
 import lombok.*;
 
@@ -12,9 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "T_COMMENT")
 public class Comment extends BaseTimeEntity {
@@ -36,8 +36,8 @@ public class Comment extends BaseTimeEntity {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<CommentLike> likes = new ArrayList<>();
 
-//    public static Comment create(CommentRequest dto, User user) {
-//
-//    }
+    public void removeChild(Comment comment) {
+        this.children.remove(comment);
+    }
 
 }

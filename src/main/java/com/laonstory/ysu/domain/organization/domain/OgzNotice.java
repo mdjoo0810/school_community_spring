@@ -4,6 +4,7 @@ import com.laonstory.ysu.domain.common.BaseTimeEntity;
 import com.laonstory.ysu.domain.organization.domain.Organization;
 import com.laonstory.ysu.domain.organization.model.OgzNoticeMenu;
 import com.laonstory.ysu.domain.organization.model.OgzTabType;
+import com.laonstory.ysu.domain.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -54,6 +55,21 @@ public class OgzNotice extends BaseTimeEntity {
     @OneToMany(mappedBy = "notice", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OgzNoticeLike> likes = new ArrayList<>();
 
+    // 좋아요 증가
+    public void addLike(OgzNoticeLike like, User user) {
+        this.likes.add(like);
+        like.matchUser(user);
+    }
+
+    public void cancelLike(OgzNoticeLike like) {
+        this.likes.remove(like);
+    }
+
+    public void removeComment(OgzNoticeComment comment) {
+        this.comments.remove(comment);
+    }
+
+    // 조회수 중가
     public void read() {
         ++this.views;
     }
