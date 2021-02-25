@@ -28,6 +28,7 @@ public class OgzNoticeRepositorySupport extends QuerydslRepositorySupport {
         this.queryFactory = queryFactory;
     }
 
+    // 총학생회, 단과대, 학부학과, 학생단체 관련
     public List<OgzNotice> findLimit_3ByOgzNoticeSearchModel(OgzNoticeSearchModel model) {
         return queryFactory
                 .selectFrom(ogzNotice)
@@ -39,6 +40,7 @@ public class OgzNoticeRepositorySupport extends QuerydslRepositorySupport {
                 .fetch();
     }
 
+    // 학회 및 동아리 관련
     public List<OgzNotice> findLimit_3ByOgzNoticeSearchModelAndIsWholeTrue(OgzNoticeSearchModel model) {
         return queryFactory
                 .selectFrom(ogzNotice)
@@ -51,6 +53,7 @@ public class OgzNoticeRepositorySupport extends QuerydslRepositorySupport {
                 .fetch();
     }
 
+    // 전체 리스트 불러오기 (페이징)
     public Page<OgzNotice> findAllNoticeByTabType(OgzTabType type, Pageable pageable) {
         QueryResults<OgzNotice> results = queryFactory
                 .selectFrom(ogzNotice)
@@ -65,6 +68,9 @@ public class OgzNoticeRepositorySupport extends QuerydslRepositorySupport {
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
+    // ==================================================
+    // 조건
+    // ==================================================
     private BooleanExpression eqTabType(OgzTabType type) {
         if (type == null) {
             return null;

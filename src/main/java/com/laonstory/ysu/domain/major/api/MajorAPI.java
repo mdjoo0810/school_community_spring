@@ -2,7 +2,12 @@ package com.laonstory.ysu.domain.major.api;
 
 import com.laonstory.ysu.domain.major.application.MajorSearchService;
 import com.laonstory.ysu.domain.major.dto.MajorResponse;
+import com.laonstory.ysu.domain.organization.dto.OrganizationWithNoticeAndActivityAndFreeAndAuditResponse;
+import com.laonstory.ysu.domain.organization.model.OgzNoticeMenu;
+import com.laonstory.ysu.domain.organization.model.OgzNoticeSearchModel;
+import com.laonstory.ysu.domain.organization.model.OgzTabType;
 import com.laonstory.ysu.global.common.response.ApiListResponse;
+import com.laonstory.ysu.global.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,6 +27,12 @@ public class MajorAPI {
     @GetMapping("/college/{collegeId}")
     public ApiListResponse<MajorResponse> findAllByCollegeId(@PathVariable Long collegeId) {
         return new ApiListResponse<>(HttpStatus.OK, majorSearchService.findAllByCollegeId(collegeId));
+    }
+
+    @GetMapping("/{majorId}")
+    public ApiResponse<OrganizationWithNoticeAndActivityAndFreeAndAuditResponse> findByOgzNoticeSearchModel (@PathVariable Long majorId) {
+        return new ApiResponse<>(HttpStatus.OK, majorSearchService
+                .findByOgzNoticeSearchModel(new OgzNoticeSearchModel(OgzTabType.MAJOR, majorId)));
     }
 
 }

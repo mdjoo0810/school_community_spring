@@ -1,6 +1,7 @@
 package com.laonstory.ysu.domain.major.persistence;
 
 import com.laonstory.ysu.domain.major.domain.Major;
+import com.laonstory.ysu.domain.major.exception.MajorNotFoundException;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
@@ -20,10 +21,14 @@ public class MajorRepositorySupport extends QuerydslRepositorySupport {
     }
 
     public Major findById(Long majorId) {
-        return queryFactory
+        Major result = queryFactory
                 .selectFrom(major)
                 .where(major.id.eq(majorId))
                 .fetchOne();
+
+        if (result == null) throw new MajorNotFoundException(majorId);
+
+        return result;
     }
 
     public List<Major> findAllByCollegeId(Long collegeId) {

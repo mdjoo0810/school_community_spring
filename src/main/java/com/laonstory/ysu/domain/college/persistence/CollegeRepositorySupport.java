@@ -1,6 +1,7 @@
 package com.laonstory.ysu.domain.college.persistence;
 
 import com.laonstory.ysu.domain.college.domain.College;
+import com.laonstory.ysu.domain.college.exception.CollegeNotFoundException;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
@@ -20,10 +21,14 @@ public class CollegeRepositorySupport extends QuerydslRepositorySupport {
     }
 
     public College findById(Long collegeId) {
-        return queryFactory
+        College result = queryFactory
                 .selectFrom(college)
                 .where(college.id.eq(collegeId))
                 .fetchOne();
+
+        if (result == null) throw new CollegeNotFoundException(collegeId);
+
+        return result;
     }
 
     public List<College> findAll() {

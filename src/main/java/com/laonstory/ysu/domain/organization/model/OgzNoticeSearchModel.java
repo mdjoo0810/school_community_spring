@@ -17,6 +17,23 @@ public class OgzNoticeSearchModel {
     private List<OgzNoticeMenu> menus;
     private Long ogzId;
 
+
+    public OgzNoticeSearchModel (OgzTabType tabType, List<OgzNoticeMenu> menus) {
+        this.tabType = tabType;
+        this.menus = menus;
+    }
+
+    public OgzNoticeSearchModel (OgzTabType tabType, List<OgzNoticeMenu> menus, Long ogzId) {
+        this.tabType = tabType;
+        this.menus = menus;
+        this.ogzId = ogzId;
+    }
+
+    public OgzNoticeSearchModel (OgzTabType tabType, Long ogzId) {
+        this.tabType = tabType;
+        this.ogzId = ogzId;
+    }
+
     public OgzNoticeSearchModel (StudentOgz.OgzType ogzType, OgzTabType tabType) {
         this.ogzType = ogzType;
         this.tabType = tabType;
